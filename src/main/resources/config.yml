@@ -1,0 +1,12 @@
+MySQL:
+  host: "localhost"
+  user: "root"
+  password: ""
+  database: "db"
+
+Config:
+  punicoes: # Motivo : Permissão : Grupo : Banimento : Tempo em minutos (* para permanente)
+    - "Uso_de_hack:punir.mod:&2[Moderador]:BAN:*"
+    - "Flood:punir.ajudante:&e[Ajudante]:MUTE:60"
+    - "Caps-Lock:punir.ajudante:&e[Ajudante]:MUTE:60"
+    - "Ofensa_ao_Servidor:punir.ajudante:&e[Ajudante]:BAN:60"
