@@ -1,8 +1,7 @@
 package com.dustdev.specterpunish.inventory;
 
-import com.dustdev.specterpunish.Main;
+import com.dustdev.specterpunish.SpecterPunish;
 import com.dustdev.specterpunish.utils.Scroller;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -17,7 +16,7 @@ public class PunishInventory {
 
     public void open(Player p) {
         List<ItemStack> itens = new ArrayList<>();
-        Main.instance.punishDAO.selectAll().forEach(key -> {
+        SpecterPunish.instance.punishDAO.selectAll().forEach(key -> {
 
             ItemStack item = new ItemStack(Material.SKULL_ITEM,1,(short)3);
             SkullMeta meta = (SkullMeta) item.getItemMeta();
@@ -45,6 +44,11 @@ public class PunishInventory {
 
         });
 
+        if(itens.size() == 0 ) {
+            p.sendMessage("§cNo momento não há nenhuma punição ativa.");
+            return;
+        }
+
         Scroller scroller = new Scroller.ScrollerBuilder()
                 .withSize(54)
                 .withName("Punições ativas")
@@ -54,7 +58,7 @@ public class PunishInventory {
                 .withOnClick(new Scroller.ChooseItemRunnable() {
                     @Override
                     public void run(Player player, ItemStack item) {
-                        Main.instance.punishDAO.selectAll().forEach(key -> {
+                        SpecterPunish.instance.punishDAO.selectAll().forEach(key -> {
                             if (item.getItemMeta().getDisplayName().replace("§7", "").equalsIgnoreCase(key.getPlayer())) {
                                 new DetalhesInventory().open(p, key.getPlayer());
                             }

@@ -1,10 +1,11 @@
 package com.dustdev.specterpunish.command;
 
-import com.dustdev.specterpunish.Main;
+import com.dustdev.specterpunish.SpecterPunish;
 import com.dustdev.specterpunish.configuration.values.GeneralValue;
 import com.dustdev.specterpunish.configuration.values.MensagensValue;
 import com.dustdev.specterpunish.enums.PunishType;
 import com.dustdev.specterpunish.event.PunishPlayerEvent;
+import com.dustdev.specterpunish.event.UnPunishPlayerEvent;
 import com.dustdev.specterpunish.inventory.PunishInventory;
 import me.saiintbrisson.minecraft.command.annotation.Command;
 import me.saiintbrisson.minecraft.command.annotation.Optional;
@@ -15,17 +16,12 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Random;
-
 public class PunishCommand {
 
     @Command(
             name = "punir",
-            usage = "/punir <jogador>",
-            permission = "punir.usar",
-            async = true
+            usage = "punir <jogador>",
+            permission = "punir.usar"
     ) public void punish(Context<CommandSender> sender, String targetn, @Optional String motivo, @Optional String prova) {
 
         OfflinePlayer target = Bukkit.getOfflinePlayer(targetn);
@@ -48,7 +44,7 @@ public class PunishCommand {
                 PunishType punishType = PunishType.valueOf(args[3]);
 
                 if (!sender.getSender().hasPermission(args[1])) {
-                    sender.sendMessage(MensagensValue.get(MensagensValue::semperm));
+                    sender.sendMessage(MensagensValue.get(MensagensValue::semperm).replace("%grupo%", args[2].replace("&", "§")));
                     return;
                 }
 
@@ -62,17 +58,20 @@ public class PunishCommand {
 
     public void sendMotivos(CommandSender sender, OfflinePlayer target) {
         sender.sendMessage("");
-        sender.sendMessage("§ePunições disponíveis:");
+        sender.sendMessage("§aSelecione um dos motivos abaixo:");
         sender.sendMessage("");
-        GeneralValue.get(GeneralValue::punicoes).forEach(key -> {
+        GeneralValue.get(GeneralValue::punicoes).stream().filter(key -> sender.hasPermission(key.split(":")[1])).forEach(key -> {
             String[] args = key.split(":");
-
-            TextComponent text = new TextComponent("  §f" + args[0].replace("_", " "));
-
-            text.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§7Clique para punir o jogador por este motivo.").create()));
+            TextComponent text = new TextComponent(" §e§l• §f" + args[0].replace("_", " "));
+            String tempo = args[4].equalsIgnoreCase("*") ? "Permanente" : args[4] + " horas";
+            text.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(
+                    "§7Tipo de Punição: §f" + args[3] + "\n" +
+                            "§7Tempo da Punição: §f" + tempo + "\n" +
+                            "§7Cargo Mínimo: " + args[2].replace("&", "§")
+            ).create()));
             text.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/punir " + target.getName() + " " + args[0] + " https://prova.com"));
 
-            if(sender instanceof Player) {
+            if (sender instanceof Player) {
                 ((Player) sender).spigot().sendMessage(text);
             } else {
                 sender.sendMessage(text.getText());
@@ -83,22 +82,21 @@ public class PunishCommand {
     @Command(
             name = "unpunir",
             usage = "unpunir <jogador>",
-            permission = "unpunir.usar",
-            async = true
+            permission = "unpunir.usar"
     ) public void unpunir(Context<CommandSender> sender, String targetn) {
+
         OfflinePlayer player = Bukkit.getOfflinePlayer(targetn);
+
         if (player == null) {
             sender.sendMessage(MensagensValue.get(MensagensValue::notarget));
             return;
         }
-        if (!Main.instance.punishStorage.isPunished(player.getName())) {
+        if (!SpecterPunish.instance.punishStorage.isPunished(player.getName())) {
             sender.sendMessage(MensagensValue.get(MensagensValue::naopunido));
             return;
         }
-        Main.instance.punishStorage.removePunished(player.getName());
-        Bukkit.getOnlinePlayers().forEach(p -> {
-            p.sendMessage(MensagensValue.get(MensagensValue::despunido).replace("{player}", player.getName()));
-        });
+        UnPunishPlayerEvent unPunishPlayerEvent = new UnPunishPlayerEvent(player.getName(), sender.getSender().getName());
+        Bukkit.getPluginManager().callEvent(unPunishPlayerEvent);
     }
 
     @Command(

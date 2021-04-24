@@ -10,3 +10,4 @@ Config:
     - "Flood:punir.ajudante:&e[Ajudante]:MUTE:60"
     - "Caps-Lock:punir.ajudante:&e[Ajudante]:MUTE:60"
     - "Ofensa_ao_Servidor:punir.ajudante:&e[Ajudante]:BAN:60"
+    - "Afk:punir.ajudante:&e[Ajudante]:KICK:*"

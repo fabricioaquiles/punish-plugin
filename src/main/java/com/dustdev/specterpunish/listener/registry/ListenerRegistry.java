@@ -1,25 +1,23 @@
 package com.dustdev.specterpunish.listener.registry;
 
-import com.dustdev.specterpunish.Main;
-import com.dustdev.specterpunish.listener.InventoryClickListener;
-import com.dustdev.specterpunish.listener.LegendchatListener;
-import com.dustdev.specterpunish.listener.PlayerLoginListener;
-import com.dustdev.specterpunish.listener.PunishPlayerListener;
+import com.dustdev.specterpunish.SpecterPunish;
+import com.dustdev.specterpunish.listener.*;
 import lombok.Data;
 import org.bukkit.Bukkit;
 
 @Data(staticConstructor = "of")
 public class ListenerRegistry {
 
-    private final Main instance;
+    private final SpecterPunish instance;
 
     public void register() {
         try {
 
+            Bukkit.getPluginManager().registerEvents(new InventoryClickListener(), instance);
             Bukkit.getPluginManager().registerEvents(new LegendchatListener(), instance);
             Bukkit.getPluginManager().registerEvents(new PlayerLoginListener(), instance);
             Bukkit.getPluginManager().registerEvents(new PunishPlayerListener(), instance);
-            Bukkit.getPluginManager().registerEvents(new InventoryClickListener(), instance);
+            Bukkit.getPluginManager().registerEvents(new UnPunishPlayerListener(), instance);
 
             Bukkit.getConsoleSender().sendMessage("§b[SpecterPunish] [Eventos]§f eventos carregados com sucesso.");
         } catch (Throwable throwable) {

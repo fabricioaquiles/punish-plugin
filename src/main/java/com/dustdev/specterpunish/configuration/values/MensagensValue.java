@@ -33,6 +33,8 @@ public class MensagensValue implements ConfigurationInjectable {
     @ConfigField("baniu") private List<String> baniu;
     @ConfigField("mutado") private List<String> mutado;
     @ConfigField("mutou") private List<String> mutou;
+    @ConfigField("kickado") private List<String> kickado;
+    @ConfigField("kickou") private List<String> kickou;
 
     public static <T> T get(Function<MensagensValue, T> function) {
         return function.apply(instance);

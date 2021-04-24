@@ -2,6 +2,7 @@ package com.dustdev.specterpunish.storage;
 
 import com.dustdev.specterpunish.configuration.values.MensagensValue;
 import com.dustdev.specterpunish.dao.PunishDAO;
+import com.dustdev.specterpunish.enums.PunishType;
 import com.dustdev.specterpunish.event.PunishPlayerEvent;
 import com.dustdev.specterpunish.model.PunishModel;
 import lombok.RequiredArgsConstructor;
@@ -45,10 +46,31 @@ public class PunishStorage {
     }
 
     public void punishPlayer(PunishModel punishBuilder, PunishPlayerEvent e) {
+        Player p = Bukkit.getPlayerExact(e.getPlayer());
+        if(e.getPunishType() == PunishType.KICK) {
+            if (p != null) {
+                String msg = String.join("\n", MensagensValue.get(MensagensValue::kickado));
+                p.kickPlayer(msg
+                        .replace("{autor}", punishBuilder.getAutor())
+                        .replace("{motivo}", punishBuilder.getMotivo().replace("_", " "))
+                );
+
+            }
+
+            Bukkit.getOnlinePlayers().forEach(players -> {
+                MensagensValue.get(MensagensValue::kickou).forEach(msg -> {
+                    players.sendMessage(msg
+                            .replace("{player}", punishBuilder.getPlayer())
+                            .replace("{autor}", punishBuilder.getAutor())
+                            .replace("{motivo}", punishBuilder.getMotivo().replace("_", " "))
+                    );
+                });
+            });
+            return;
+        }
         punishDAO.insertOne(punishBuilder);
 
         PunishModel punishModel = getPunished(e.getPlayer());
-        Player p = Bukkit.getPlayerExact(e.getPlayer());
 
         switch (e.getPunishType()) {
             case MUTE:

@@ -1,15 +1,11 @@
 package com.dustdev.specterpunish.listener;
 
-import com.dustdev.specterpunish.Main;
-import com.dustdev.specterpunish.configuration.values.MensagensValue;
+import com.dustdev.specterpunish.SpecterPunish;
 import com.dustdev.specterpunish.event.PunishPlayerEvent;
 import com.dustdev.specterpunish.model.PunishModel;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class PunishPlayerListener implements Listener {
@@ -18,8 +14,8 @@ public class PunishPlayerListener implements Listener {
     public void punish(PunishPlayerEvent e) {
         Date atual = new Date(System.currentTimeMillis());
 
-        if(Main.instance.punishStorage.isPunished(e.getPlayer())) {
-            Main.instance.punishStorage.removePunished(e.getPlayer());
+        if(SpecterPunish.instance.punishStorage.isPunished(e.getPlayer())) {
+            SpecterPunish.instance.punishStorage.removePunished(e.getPlayer());
         }
 
         if(!e.getTempo().equalsIgnoreCase("*")) {
@@ -36,6 +32,6 @@ public class PunishPlayerListener implements Listener {
                 .punishType(e.getPunishType())
                 .build();
 
-        Main.instance.punishStorage.punishPlayer(punishBuilder, e);
+        SpecterPunish.instance.punishStorage.punishPlayer(punishBuilder, e);
     }
 }

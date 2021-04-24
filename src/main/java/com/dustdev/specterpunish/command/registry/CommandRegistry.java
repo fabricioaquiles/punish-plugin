@@ -1,6 +1,6 @@
 package com.dustdev.specterpunish.command.registry;
 
-import com.dustdev.specterpunish.Main;
+import com.dustdev.specterpunish.SpecterPunish;
 import com.dustdev.specterpunish.command.PunishCommand;
 import com.dustdev.specterpunish.configuration.values.MensagensValue;
 import lombok.Data;
@@ -14,7 +14,7 @@ import org.bukkit.Bukkit;
 @Data(staticConstructor = "of")
 public class CommandRegistry {
 
-    private final Main plugin;
+    private final SpecterPunish plugin;
 
     public void register() {
         try {

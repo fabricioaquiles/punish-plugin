@@ -1,7 +1,7 @@
 package com.dustdev.specterpunish.listener;
 
-import com.dustdev.specterpunish.Main;
-import com.dustdev.specterpunish.configuration.values.MensagensValue;
+import com.dustdev.specterpunish.event.UnPunishPlayerEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -16,8 +16,8 @@ public class InventoryClickListener implements Listener {
             e.setCancelled(true);
             if(e.getRawSlot() == 13) {
                 String punido = e.getInventory().getName().split(":")[1].replaceAll(" ", "");
-                Main.instance.punishStorage.removePunished(punido);
-                p.sendMessage(MensagensValue.get(MensagensValue::despunido).replace("{player}", punido));
+                UnPunishPlayerEvent unPunishPlayerEvent = new UnPunishPlayerEvent(punido, p.getName());
+                Bukkit.getPluginManager().callEvent(unPunishPlayerEvent);
                 p.closeInventory();
             }
         }

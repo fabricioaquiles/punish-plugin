@@ -16,6 +16,11 @@ Mensagens:
     - "&c * Motivo: {motivo}"
     - "&c * Expira em: {tempo}"
     - ""
+  kickou:
+    - ""
+    - "&c * {player} foi kicado por {autor}"
+    - "&c * Motivo: {motivo}"
+    - ""
   banido:
     - "&c&lSPECTERPUNISH"
     - ""
@@ -42,5 +47,14 @@ Mensagens:
     - "&cAutor: &f{autor}"
     - "&cMotivo: &f{motivo}"
     - "&cExpira em: &f{tempo}"
+    - ""
+    - "&cAcesse: &ehttps://seuservidor.com"
+  kickado:
+    - "&c&lSPECTERPUNISH"
+    - ""
+    - "&cVocê foi kickado do servidor!"
+    - ""
+    - "&cAutor: &f{autor}"
+    - "&cMotivo: &f{motivo}"
     - ""
     - "&cAcesse: &ehttps://seuservidor.com"

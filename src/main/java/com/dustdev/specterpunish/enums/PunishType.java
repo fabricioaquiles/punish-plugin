@@ -2,6 +2,6 @@ package com.dustdev.specterpunish.enums;
 
 public enum PunishType {
 
-    MUTE,BAN
+    MUTE,BAN,KICK
 
 }

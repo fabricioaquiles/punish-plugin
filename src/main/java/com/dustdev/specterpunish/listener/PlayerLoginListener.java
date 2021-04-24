@@ -1,6 +1,6 @@
 package com.dustdev.specterpunish.listener;
 
-import com.dustdev.specterpunish.Main;
+import com.dustdev.specterpunish.SpecterPunish;
 import com.dustdev.specterpunish.configuration.values.MensagensValue;
 import com.dustdev.specterpunish.enums.PunishType;
 import com.dustdev.specterpunish.model.PunishModel;
@@ -15,11 +15,11 @@ public class PlayerLoginListener implements Listener {
 
     @EventHandler
     public void login(PlayerLoginEvent e) {
-        if (Main.instance.punishStorage.isPunished(e.getPlayer().getName())) {
-            PunishModel punishModel = Main.instance.punishStorage.getPunished(e.getPlayer().getName());
+        if (SpecterPunish.instance.punishStorage.isPunished(e.getPlayer().getName())) {
+            PunishModel punishModel = SpecterPunish.instance.punishStorage.getPunished(e.getPlayer().getName());
             if (punishModel.getPunishType() == PunishType.BAN) {
                 if (!punishModel.getTempo().equalsIgnoreCase("*") && passou(Long.parseLong(punishModel.getTempo()))) {
-                    Main.instance.punishStorage.removePunished(e.getPlayer().getName());
+                    SpecterPunish.instance.punishStorage.removePunished(e.getPlayer().getName());
                 } else {
                     String msg = String.join("\n", MensagensValue.get(MensagensValue::banido));
                     e.setKickMessage(msg
