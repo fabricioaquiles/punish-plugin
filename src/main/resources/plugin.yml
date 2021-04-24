@@ -1,0 +1,4 @@
+name: SpecterPunish-Bot
+version: 1.1
+main: com.dustdev.bot.specterpunish.Main
+authors: [ Dust ]
