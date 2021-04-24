@@ -1,5 +1,5 @@
-Config:
-  bot-token: ''
-  channels-id:
-    punish: ''
-    unpunish: ''
+MySQL:
+  host: "localhost"
+  user: "root"
+  password: ""
+  database: "db"
