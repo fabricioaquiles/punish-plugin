@@ -1,6 +1,6 @@
 package com.dustdev.specterpunish.inventory;
 
-import com.dustdev.specterpunish.SpecterPunish;
+import com.dustdev.specterpunish.Main;
 import com.dustdev.specterpunish.utils.Scroller;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -16,7 +16,7 @@ public class PunishInventory {
 
     public void open(Player p) {
         List<ItemStack> itens = new ArrayList<>();
-        SpecterPunish.instance.punishDAO.selectAll().forEach(key -> {
+        Main.instance.punishDAO.selectAll().forEach(key -> {
 
             ItemStack item = new ItemStack(Material.SKULL_ITEM,1,(short)3);
             SkullMeta meta = (SkullMeta) item.getItemMeta();
@@ -58,7 +58,7 @@ public class PunishInventory {
                 .withOnClick(new Scroller.ChooseItemRunnable() {
                     @Override
                     public void run(Player player, ItemStack item) {
-                        SpecterPunish.instance.punishDAO.selectAll().forEach(key -> {
+                        Main.instance.punishDAO.selectAll().forEach(key -> {
                             if (item.getItemMeta().getDisplayName().replace("§7", "").equalsIgnoreCase(key.getPlayer())) {
                                 new DetalhesInventory().open(p, key.getPlayer());
                             }

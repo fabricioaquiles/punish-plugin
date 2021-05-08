@@ -1,7 +1,7 @@
 package com.dustdev.specterpunish.listener;
 
 import br.com.devpaulo.legendchat.api.events.ChatMessageEvent;
-import com.dustdev.specterpunish.SpecterPunish;
+import com.dustdev.specterpunish.Main;
 import com.dustdev.specterpunish.configuration.values.MensagensValue;
 import com.dustdev.specterpunish.enums.PunishType;
 import com.dustdev.specterpunish.model.PunishModel;
@@ -15,11 +15,11 @@ public class LegendchatListener implements Listener {
 
     @EventHandler
     public void lc(ChatMessageEvent e) {
-        if (SpecterPunish.instance.punishStorage.isPunished(e.getSender().getName())) {
-            PunishModel punishModel = SpecterPunish.instance.punishStorage.getPunished(e.getSender().getName());
+        if (Main.instance.punishStorage.isPunished(e.getSender().getName())) {
+            PunishModel punishModel = Main.instance.punishStorage.getPunished(e.getSender().getName());
             if (punishModel.getPunishType() == PunishType.MUTE) {
                 if (!punishModel.getTempo().equalsIgnoreCase("*") && passou(Long.parseLong(punishModel.getTempo()))) {
-                    SpecterPunish.instance.punishStorage.removePunished(e.getSender().getName());
+                    Main.instance.punishStorage.removePunished(e.getSender().getName());
                 } else {
                     e.setCancelled(true);
                     MensagensValue.get(MensagensValue::mutado).forEach(msg -> {

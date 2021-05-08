@@ -1,6 +1,6 @@
 package com.dustdev.specterpunish.command;
 
-import com.dustdev.specterpunish.SpecterPunish;
+import com.dustdev.specterpunish.Main;
 import com.dustdev.specterpunish.configuration.values.GeneralValue;
 import com.dustdev.specterpunish.configuration.values.MensagensValue;
 import com.dustdev.specterpunish.enums.PunishType;
@@ -28,6 +28,11 @@ public class PunishCommand {
 
         if(target == null) {
             sender.sendMessage(MensagensValue.get(MensagensValue::notarget));
+            return;
+        }
+
+        if(sender.getSender().getName().equalsIgnoreCase(target.getName())) {
+            sender.sendMessage(MensagensValue.get(MensagensValue::sepunir));
             return;
         }
 
@@ -91,7 +96,7 @@ public class PunishCommand {
             sender.sendMessage(MensagensValue.get(MensagensValue::notarget));
             return;
         }
-        if (!SpecterPunish.instance.punishStorage.isPunished(player.getName())) {
+        if (!Main.instance.punishStorage.isPunished(player.getName())) {
             sender.sendMessage(MensagensValue.get(MensagensValue::naopunido));
             return;
         }

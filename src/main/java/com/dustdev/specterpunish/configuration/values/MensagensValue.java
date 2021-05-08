@@ -29,6 +29,7 @@ public class MensagensValue implements ConfigurationInjectable {
     @ConfigField("jogadorpunido") private String punido;
     @ConfigField("jogadornaopunido") private String naopunido;
     @ConfigField("jogadordespunido") private String despunido;
+    @ConfigField("sepunir") private String sepunir;
     @ConfigField("banido") private List<String> banido;
     @ConfigField("baniu") private List<String> baniu;
     @ConfigField("mutado") private List<String> mutado;

@@ -7,7 +7,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
-import com.dustdev.specterpunish.SpecterPunish;
+import com.dustdev.specterpunish.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -49,7 +49,7 @@ public class Scroller {
                     }
                 }
             }
-        }, SpecterPunish.getPlugin(SpecterPunish.class));
+        }, Main.getPlugin(Main.class));
     }
 
     private List<ItemStack> items;
